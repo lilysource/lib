@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lilysource/lib/refs/heads/main/ChiroroUI.luau"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lilysource/lib/refs/heads/main/ChiroroUI.lua"))()
 
 -- Create main window
 local Window = Library:CreateWindow({
