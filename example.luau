@@ -822,4 +822,126 @@ function ModernLibrary:CreateWindow(config)
                 table.insert(buttons, checkBtn)
             end
             
-           
+            -- Update frame height based on rows
+            local rows = math.ceil(#multidropdown.Options / 4)
+            frame.Size = UDim2.new(1, -20, 0, 30 + (rows * 35))
+            
+            table.insert(tab.Elements, frame)
+            
+            return multidropdown
+        end
+        
+        -- Create text label
+        function tab:CreateText(textConfig)
+            local text = {}
+            text.Title = textConfig.Title or "Text"
+            
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Name = "Text_" .. text.Title
+            textLabel.Parent = tab.Content
+            textLabel.Size = UDim2.new(1, -20, 0, 30)
+            textLabel.BackgroundTransparency = 1
+            textLabel.Text = text.Title
+            textLabel.TextColor3 = Window.CurrentColors.TextSecondary
+            textLabel.TextSize = 13
+            textLabel.Font = Enum.Font.Gotham
+            textLabel.TextXAlignment = Enum.TextXAlignment.Left
+            
+            table.insert(tab.Elements, textLabel)
+            
+            return text
+        end
+        
+        return tab
+    end
+    
+    -- Refresh function
+    function Window:Refresh()
+        task.wait()
+        Window.Content.CanvasSize = UDim2.new(0, 0, 0, Window.ContentLayout.AbsoluteContentSize.Y)
+    end
+    
+    -- Destroy function
+    function Window:Destroy()
+        Window.ScreenGui:Destroy()
+    end
+    
+    return Window
+end
+
+-- Example usage:
+local Library = ModernLibrary
+
+-- Create main window
+local Window = Library:CreateWindow({
+    Title = "Modern UI Library",
+    SubTitle = "Complete Window System",
+    Size = UDim2.fromOffset(800, 600),
+    Resize = true,
+    MinSize = Vector2.new(500, 400),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.RightControl
+})
+
+-- Create tabs
+local MainTab = Window:CreateTab({Title = "Main"})
+local SettingsTab = Window:CreateTab({Title = "Settings"})
+local AboutTab = Window:CreateTab({Title = "About"})
+
+-- Main Tab Content
+local ControlsSection = MainTab:AddSection({Title = "Controls"})
+
+MainTab:CreateButton({
+    Title = "Click Me!",
+    Callback = function()
+        print("Button clicked!")
+        warn("Button was pressed!")
+    end
+})
+
+MainTab:CreateInput({
+    Title = "Username",
+    Placeholder = "Enter your username...",
+    Callback = function(value)
+        print("Input value:", value)
+    end
+})
+
+local FeatureToggle = MainTab:CreateToggle({
+    Title = "Enable Feature",
+    Default = false,
+    Callback = function(value)
+        print("Feature toggled:", value)
+    end
+})
+
+-- Settings Tab Content
+local OptionsSection = SettingsTab:AddSection({Title = "Options"})
+
+local DropdownExample = SettingsTab:CreateDropdown({
+    Title = "Select Option",
+    Options = {"Option 1", "Option 2", "Option 3", "Option 4"},
+    Callback = function(selected)
+        print("Selected:", selected)
+    end
+})
+
+SettingsTab:CreateMultiDropdown({
+    Title = "Select Multiple Items",
+    Options = {"Item A", "Item B", "Item C", "Item D", "Item E", "Item F"},
+    Callback = function(selected)
+        print("Selected items:", table.concat(selected, ", "))
+    end
+})
+
+-- About Tab Content
+AboutTab:CreateText({Title = "Modern UI Library v1.0"})
+AboutTab:CreateText({Title = "Created with Roblox Studio"})
+AboutTab:CreateText({Title = "Features: Window System, Tabs, Buttons, Inputs, Toggles, Dropdowns"})
+
+-- Refresh the window
+Window:Refresh()
+
+-- Return the library
+return ModernLibrary
