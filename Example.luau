@@ -1,6 +1,6 @@
-local Library = loadstring(game:HttpGet("your-raw-url-here"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lilysource/lib/refs/heads/main/ChiroroUI.luau"))()
 local Window = Library:CreateWindow({
-    Title = "My Script",
+    Title = "Chiroro Hub",
     SubTitle = "v1.0",
     Size = UDim2.fromOffset(800, 600),
     Acrylic = true
